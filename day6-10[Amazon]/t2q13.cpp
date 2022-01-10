@@ -8,6 +8,7 @@ int orangesRotting(vector<vector<int>> &grid)
     queue<pair<int, int>> q1;
     const int n = grid.size(), m = grid[0].size();
     pair<int, int> rot1;
+    bool f = false;
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
@@ -16,36 +17,42 @@ int orangesRotting(vector<vector<int>> &grid)
             {
                 rot1 = {i, j};
                 q1.push(rot1);
+                f = !f;
             }
         }
     }
-    q1.push(rot1);
+    // if(!f) return -1;
+    cout << q1.empty() << endl;
+    // q1.push(rot1);
     int time = 0;
+    if (q1.empty())
+        time++;
     while (!q1.empty())
     {
         queue<pair<int, int>> temp;
-        cout << time << endl;
         time++;
         while (!q1.empty())
         {
             pair<int, int> top = q1.front();
             int f = top.first, s = top.second;
-            if (f != 0 && grid[f - 1][s] == 1)
+            cout << f << " " << s << endl;
+            if (f - 1 >= 0 && f <= n - 1 && grid[f - 1][s] == 1)
             {
+
                 grid[f - 1][s] = 2;
                 temp.push({f - 1, s});
             }
-            if (f != n - 1 && grid[f + 1][s] == 1)
+            if (f + 1 <= n - 1 && f >= 0 && grid[f + 1][s] == 1)
             {
                 grid[f + 1][s] = 2;
                 temp.push({f + 1, s});
             }
-            if (s != 0 && grid[f][s - 1] == 1)
+            if (s - 1 >= 0 && s <= m - 1 && grid[f][s - 1] == 1)
             {
                 grid[f][s - 1] = 2;
                 temp.push({f, s - 1});
             }
-            if (s != m - 1 && grid[f][s + 1] == 1)
+            if (s + 1 <= m - 1 && s >= 0 && grid[f][s + 1] == 1)
             {
                 grid[f][s + 1] = 2;
                 temp.push({f, s + 1});
@@ -58,11 +65,12 @@ int orangesRotting(vector<vector<int>> &grid)
     {
         for (int j : grid[i])
         {
+            // cout<<j<<" ";
             if (j == 1)
                 return -1;
         }
     }
-    return time;
+    return time - 1;
 }
 
 int main()
