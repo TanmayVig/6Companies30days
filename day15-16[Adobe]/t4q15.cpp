@@ -26,21 +26,19 @@ int main()
 {
     string x = "10.1.1.3", y = "10.1.1.9";
     vector<int> xv = split(x), yv = split(y);
-    if (xv.size() != yv.size())
-        x = ((xv.size() > yv.size()) ? x : y);
-    else
+    int i = 0;
+    while (i < xv.size() && i < yv.size())
     {
-        int i = 0;
-        while (i < xv.size())
+        if (xv[i] != yv[i])
         {
-            if (xv[i] != yv[i])
-            {
-                x = ((xv[i] > yv[i]) ? x : y);
-                break;
-            }
-            i++;
+            x = ((xv[i] > yv[i]) ? x : y);
+            break;
         }
+        i++;
     }
-    cout << x;
+    if (i == xv.size())
+        cout << y;
+    else
+        cout << x;
     return 0;
 }
